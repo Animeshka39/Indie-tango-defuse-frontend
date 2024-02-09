@@ -37,10 +37,14 @@ function showCode(gameCode) {
     
     // Створення посилання
     let link = document.createElement('a');
+    let link2 = document.createElement('a');
+    link2.textContent = "Connect code or use link: " + gameCode + '    ';
     link.href = "https://sprightly-elf-836547.netlify.app/helper.html?sessionCode=" + gameCode;
     link.textContent = "Link to connect another player: https://sprightly-elf-836547.netlify.app/helper.html?sessionCode=" + gameCode;
     
     // Додавання посилання до елементу списку
+    li.appendChild(link2);
+
     li.appendChild(link);
     
     // Створення кнопки для копіювання

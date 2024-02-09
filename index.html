@@ -19,13 +19,13 @@
     <header>
         <div class="invisible">Login/Registration</div>
         <h1>Indie Tango Defuse</h1>
-        <button class = "button" onclick="loginRegistration()">Login/Registration</button>
+        <button class="button" onclick="loginRegistration()">Login/Registration</button>
     </header>
 
     <main>
         <div>
-            <button class = "button" onclick="defuserClicked()">Defuser</button>
-            <button class = "button" onclick="openPopup()">Helper</button>
+            <button class="button" onclick="defuserClicked()">Defuser</button>
+            <button class="button" onclick="openPopup()">Helper</button>
         </div>
         <div class="friends">
             <h3>Friends</h3>
@@ -41,8 +41,8 @@
     <div id="popup" class="popup">
         <p>Enter session:</p>
         <input type="text" id="inputField" onkeypress="checkEnter(event)">
-        <button class = "button" onclick="submitDate()">Submit</button>
-        <button class = "button" onclick="closePopup()">Close</button>
+        <button class="button" onclick="submitDate()">Submit</button>
+        <button class="button" onclick="closePopup()">Close</button>
     </div>
 
 
@@ -192,14 +192,19 @@
         }
         document.addEventListener('DOMContentLoaded', function () {
             var friendsDiv = document.querySelector('.friends');
+            var headerDiv = document.querySelector('header div.invisible');
+            var headerButton = document.querySelector('header button.button');
             if (localStorage.getItem('token') && localStorage.getItem('token') != "null") {
                 token = 'Bearer ' + localStorage.getItem('token');
+                headerDiv.textContent = "Logout";
+                headerButton.textContent = "Logout";
             } else {
+                headerDiv.textContent = "Login/Registration";
+                headerButton.textContent = "Login/Registration";
                 token = 'Bearer ' + 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnZ2dAYXNkYXNkIiwiaWF0IjoxNzA3NDI1ODM3LCJleHAiOjE3MDgwMzA2Mzd9.e8Cgjz4WAn2iwDVG1XjsXCr5CfRWT7hKNsrRuJ1farM';
                 friendsDiv.classList.add('none');
-
             }
-            
+
             getFriends();
         });
     </script>

@@ -160,6 +160,7 @@
                 return response.json();
             })
             .then(data => {
+                console.log("t     .then(data => {");
                 localStorage.setItem('token', data.token);
                 console.log("token saved");
                 window.location.href = 'index.html';
@@ -248,6 +249,6 @@
         }, time_to_hidden_all);
     }
     document.addEventListener('DOMContentLoaded', function () {
-        // logOut();
+        logOut();
     });
 </script>
