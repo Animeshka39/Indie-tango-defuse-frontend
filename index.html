@@ -17,7 +17,9 @@
     </video>
 
     <header>
+        <div class="invisible">Login/Registration</div>
         <h1>Indie Tango Defuse</h1>
+        <button onclick="loginRegistration()">Login/Registration</button>
     </header>
 
     <main>
@@ -41,6 +43,11 @@
 
 
     <script>
+        function loginRegistration() {
+            // Handle log/reg button click event
+            window.location.href = 'login.html';
+            console.log("Login button clicked");
+        }
         function defuserClicked() {
             // Handle defuser button click event
             window.location.href = 'defuser.html';

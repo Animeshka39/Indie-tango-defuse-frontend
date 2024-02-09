@@ -15,9 +15,7 @@
         Your browser does not support the video tag.
     </video>
 
-    <header>
-        <h1>Indie Tango Defuse</h1>
-    </header>
+    
     <div class="cotn_principal">
     <div class="cont_centrar">
     <div class="cont_login">
@@ -31,7 +29,7 @@
     </div>
     <div class="col_md_sign_up">
     <div class="cont_ba_opcitiy">
-      <h2>Register</h2>
+      <h2>Registration</h2>
       <p>Register to create profile.</p>
       <button class="btn_sign_up" onclick="change_to_sign_up()">Register</button>
     </div>
@@ -58,25 +56,31 @@
         <form onsubmit="authenticate(event)">
             <input type="email" name="email" placeholder="Email" />
             <input type="password" name="password" placeholder="Password" />
-            <button class="btn_login" type="submit">Login</button>
+            <button class="btn_login" type="submit">Submit</button>
         </form>
     </div>
     
    <div class="cont_form_sign_up">
     <a href="#" onclick="hidden_login_and_sign_up()"><span class="material-symbols-outlined">arrow_back</span></a>
-     <h2>Register</h2>
+     <h2>Registration</h2>
      <form onsubmit="register(event)">
         <input type="email" name="email" placeholder="Email" />
         <input type="text" name="UserName" placeholder="User" />
         <input type="password" name="password" placeholder="Password" />
         <input type="password" name="confirmPassword" placeholder="Confirm Password" />
-        <button class="btn_sign_up" type="submit">Register</button>
+        <button class="btn_sign_up" type="submit">Submit</button>
      </form>
      </div>
     </div>
   </div>
  </div>
 </div>
+
+<header>
+    <button onclick="Return()">Return</button>
+    <h1>Indie Tango Defuse</h1>
+    <div class="invisible">Return</div>
+</header>
 
 <footer>
     Created by Oleksandr Serhienko / Oleksandr Zadorozhny
@@ -98,6 +102,11 @@
 </html>
 <script src="./webSocketHelper.js"></script>
 <script>
+    function Return() {
+        // Handle Return button click event
+        window.location.href = 'index.html';
+        console.log("Return button clicked");
+    }
     function authenticate(event) {
         event.preventDefault(); // Щоб уникнути перезавантаження сторінки
         const url = 'http://localhost:5000/api/auth/authenticate';
