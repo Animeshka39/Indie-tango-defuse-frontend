@@ -30,7 +30,7 @@ main {
     height: 60vh;
 }
 
-button {
+.button {
     padding: 15px 30px;
     font-size: 18px;
     margin: 0 10px;
@@ -41,8 +41,16 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.button:hover {
     background-color: #2c3e509f;
+}
+
+.add_to_f {
+    background-color: #2C3E50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 footer {
@@ -137,4 +145,8 @@ header {
 
 .tab-content.active {
     display: flex;
+}
+
+.none {
+    display: none;
 }

@@ -99,8 +99,8 @@ function resetGame() {
 
 // Підключення до WebSocket сервера при завантаженні сторінки
 document.addEventListener('DOMContentLoaded', function () {
-    connect();
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('token') != "null") {
+        console.log("if (localStorage.getItem('token'))");
         token = 'Bearer ' + localStorage.getItem('token');
     } else {
         token = 'Bearer ' + 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnZ2dAYXNkYXNkIiwiaWF0IjoxNzA3NDI1ODM3LCJleHAiOjE3MDgwMzA2Mzd9.e8Cgjz4WAn2iwDVG1XjsXCr5CfRWT7hKNsrRuJ1farM';
@@ -110,6 +110,17 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = 'index.html';
         // location.reload(true);
     });
+    console.log("localStorage.getItem('token')");
+    console.log(localStorage.getItem('token'));
+    console.log("('token')");
+    console.log(token);
+
+    connect();
+});
+
+window.addEventListener('beforeunload', function(event) {
+    stompClient.send("/app/stopTimer", {}, token);
+    // Тут ви можете додати будь-які інші дії, які потрібно виконати перед закриттям сторінки
 });
 
 var loseGame = function () {

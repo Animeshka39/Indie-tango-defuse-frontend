@@ -19,16 +19,17 @@
     <header>
         <div class="invisible">Login/Registration</div>
         <h1>Indie Tango Defuse</h1>
-        <button onclick="loginRegistration()">Login/Registration</button>
+        <button class = "button" onclick="loginRegistration()">Login/Registration</button>
     </header>
 
     <main>
         <div>
-            <button onclick="defuserClicked()">Defuser</button>
-            <button onclick="openPopup()">Helper</button>
+            <button class = "button" onclick="defuserClicked()">Defuser</button>
+            <button class = "button" onclick="openPopup()">Helper</button>
         </div>
         <div class="friends">
             <h3>Friends</h3>
+
         </div>
     </main>
 
@@ -40,8 +41,8 @@
     <div id="popup" class="popup">
         <p>Enter session:</p>
         <input type="text" id="inputField" onkeypress="checkEnter(event)">
-        <button onclick="submitDate()">Submit</button>
-        <button onclick="closePopup()">Close</button>
+        <button class = "button" onclick="submitDate()">Submit</button>
+        <button class = "button" onclick="closePopup()">Close</button>
     </div>
 
 
@@ -93,6 +94,9 @@
                 }
             })
                 .then(response => {
+                    console.log("header");
+                    console.log(localStorage.getItem('token'));
+
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -111,7 +115,7 @@
         function displayFriendsList() {
             var friendsDiv = document.querySelector('.friends');
             var friendsListHTML = '<h3>Friends</h3>';
-
+            var friendsListHTML = '<form onsubmit=\"addFriends(event)\"><div><input type=\"email\" name=\"email\" placeholder=\"Add to friend\" required><button class = "add_to_f" type="submit">Add</button></form>';
             // Додаємо першу вкладку для всіх друзів
             friendsListHTML += '<div class="tabs">';
             friendsListHTML += '<div class="tab" onclick="switchTab(\'all\')">All Friends</div>';
@@ -127,7 +131,7 @@
 
             // Додаємо контент для онлайн друзів
             friendsListHTML += '<div class="tab-content onlineFriends" id="onlineFriends"><ul>';
-             friendsListHTML += '<p>' + 'Click on a friend\'s login to join' + '</p>';
+            friendsListHTML += '<p>' + 'Click on a friend\'s login to join' + '</p>';
 
             for (const key in onlineFriends) {
                 if (Object.hasOwnProperty.call(onlineFriends, key)) {
@@ -139,6 +143,29 @@
             friendsDiv.innerHTML = friendsListHTML;
         }
 
+        function addFriends(event) {
+            event.preventDefault();
+            const url = 'http://localhost:5000/getInfo/addFriends';
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'friend': event.target.email.value
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("data:", data);
+                    location.reload();
+                })
+                .catch(error => console.error('Fetch error:', error));
+        }
 
         // Функція для перемикання вкладок
         function switchTab(tabName) {
@@ -158,17 +185,21 @@
             var selectedDate = document.getElementById('inputField').value;
             window.location.href = 'helper.html?sessionCode=' + encodeURIComponent(selectedDate);
         }
-        
+
         function displayDate(gameCode) {
             var selectedDate = document.getElementById('inputField').value;
             window.location.href = 'helper.html?sessionCode=' + encodeURIComponent(gameCode);
         }
         document.addEventListener('DOMContentLoaded', function () {
-            if (localStorage.getItem('token')) {
+            var friendsDiv = document.querySelector('.friends');
+            if (localStorage.getItem('token') && localStorage.getItem('token') != "null") {
                 token = 'Bearer ' + localStorage.getItem('token');
             } else {
                 token = 'Bearer ' + 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnZ2dAYXNkYXNkIiwiaWF0IjoxNzA3NDI1ODM3LCJleHAiOjE3MDgwMzA2Mzd9.e8Cgjz4WAn2iwDVG1XjsXCr5CfRWT7hKNsrRuJ1farM';
+                friendsDiv.classList.add('none');
+
             }
+            
             getFriends();
         });
     </script>
