@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (localStorage.getItem('token')) {
         token = 'Bearer ' + localStorage.getItem('token');
     } else {
-        token = 'Bearer ' + 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJxd2UzQHF3ZSIsImlhdCI6MTcwNzMyNzk1NCwiZXhwIjoxNzA3OTMyNzU0fQ.zmGla_mgb6PnkCLapxOUKpIriA3DzGtPVRcSBTx0Yx8';
+        token = 'Bearer ' + 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnZ2dAYXNkYXNkIiwiaWF0IjoxNzA3NDI1ODM3LCJleHAiOjE3MDgwMzA2Mzd9.e8Cgjz4WAn2iwDVG1XjsXCr5CfRWT7hKNsrRuJ1farM';
         console.log('Token not found in localStorage');
     }
     document.getElementById('restartButton').addEventListener('click', function () {

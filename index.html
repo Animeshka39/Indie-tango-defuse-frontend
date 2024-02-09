@@ -27,6 +27,9 @@
             <button onclick="defuserClicked()">Defuser</button>
             <button onclick="openPopup()">Helper</button>
         </div>
+        <div class="friends">
+            <h3>Friends</h3>
+        </div>
     </main>
 
     <footer>
@@ -37,12 +40,16 @@
     <div id="popup" class="popup">
         <p>Enter session:</p>
         <input type="text" id="inputField" onkeypress="checkEnter(event)">
-        <button onclick="displayDate()">Submit</button>
+        <button onclick="submitDate()">Submit</button>
         <button onclick="closePopup()">Close</button>
     </div>
 
 
     <script>
+        var token;
+        var allFriends;
+        var onlineFriends;
+
         function loginRegistration() {
             // Handle log/reg button click event
             window.location.href = 'login.html';
@@ -59,7 +66,6 @@
             console.log("Helper button clicked");
             document.getElementById('popup').style.display = 'block';
             document.getElementById('inputField').focus();
-
         }
 
         function openPopup() {
@@ -77,10 +83,94 @@
             }
         }
 
-        function displayDate() {
+        function getFriends() {
+            const url = 'http://localhost:5000/getInfo/getFriends';
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    allFriends = data.allFriends;
+                    onlineFriends = data.onlineFriends;
+                    console.log(data.onlineFriends);
+                    console.log(JSON.stringify(data.onlineFriends));
+                    displayFriendsList();
+                })
+                .catch(error => console.error('Fetch error:', error));
+        }
+
+        function displayFriendsList() {
+            var friendsDiv = document.querySelector('.friends');
+            var friendsListHTML = '<h3>Friends</h3>';
+
+            // Додаємо першу вкладку для всіх друзів
+            friendsListHTML += '<div class="tabs">';
+            friendsListHTML += '<div class="tab" onclick="switchTab(\'all\')">All Friends</div>';
+            friendsListHTML += '<div class="tab" onclick="switchTab(\'online\')">Online Friends</div>';
+            friendsListHTML += '</div>';
+
+            // Додаємо контент для всіх друзів
+            friendsListHTML += '<div class="tab-content allFriends" id="allFriends"><ul>';
+            allFriends.forEach(function (friend) {
+                friendsListHTML += '<li>' + friend + '</li>';
+            });
+            friendsListHTML += '</ul></div>';
+
+            // Додаємо контент для онлайн друзів
+            friendsListHTML += '<div class="tab-content onlineFriends" id="onlineFriends"><ul>';
+             friendsListHTML += '<p>' + 'Click on a friend\'s login to join' + '</p>';
+
+            for (const key in onlineFriends) {
+                if (Object.hasOwnProperty.call(onlineFriends, key)) {
+                    friendsListHTML += '<li onclick="displayDate(\'' + onlineFriends[key] + '\')" onmouseover="this.style.cursor=\'pointer\'" onmouseout="this.style.cursor=\'default\'">' + key + '</li>';
+                }
+            }
+            friendsListHTML += '</ul></div>';
+
+            friendsDiv.innerHTML = friendsListHTML;
+        }
+
+
+        // Функція для перемикання вкладок
+        function switchTab(tabName) {
+            var tabs = document.querySelectorAll('.tab');
+            var tabContents = document.querySelectorAll('.tab-content');
+            tabs.forEach(function (tab) {
+                tab.classList.remove('active');
+            });
+            tabContents.forEach(function (tabContent) {
+                tabContent.style.display = 'none';
+            });
+            document.querySelector('.' + tabName + 'Friends').style.display = 'block';
+            document.querySelector('.' + tabName).classList.add('active');
+        }
+
+        function submitDate() {
             var selectedDate = document.getElementById('inputField').value;
             window.location.href = 'helper.html?sessionCode=' + encodeURIComponent(selectedDate);
         }
+        
+        function displayDate(gameCode) {
+            var selectedDate = document.getElementById('inputField').value;
+            window.location.href = 'helper.html?sessionCode=' + encodeURIComponent(gameCode);
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            if (localStorage.getItem('token')) {
+                token = 'Bearer ' + localStorage.getItem('token');
+            } else {
+                token = 'Bearer ' + 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnZ2dAYXNkYXNkIiwiaWF0IjoxNzA3NDI1ODM3LCJleHAiOjE3MDgwMzA2Mzd9.e8Cgjz4WAn2iwDVG1XjsXCr5CfRWT7hKNsrRuJ1farM';
+            }
+            getFriends();
+        });
     </script>
 
 </body>

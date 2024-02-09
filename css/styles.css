@@ -91,3 +91,50 @@ header {
     border: none;
     border-radius: 5px;
 }
+
+.friends {
+    position: absolute;
+    height: 70%;
+    width: 20%;
+    background-color: #2C3E50;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+
+  }
+
+  .friends {
+    position: absolute;
+    height: 70%;
+    width: 20%;
+    background-color: #2C3E50;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+  }
+
+  .tabs {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.tab {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: flex;
+}
